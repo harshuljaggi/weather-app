@@ -1,0 +1,51 @@
+<div class="container-fluid p-5 text-white">
+    <h3 class="text-center">Weather App</h3>
+    <form (ngSubmit)="onSubmit()" #weatherForm="ngForm" class="mb-5">
+        <div class="row mb-4"></div>
+        <div class="row">
+            <div class="col-9 col-sm-10 col-md-10 col-lg-11">
+                <input type="text"
+                    class="form-control bg-dark border-top-0 border-left-0 border-right-0 rounded-0 text-white"
+                    id="city" placeholder="Search for a city" name="city" [(ngModel)]="searchCity" #city="ngModel">
+            </div>
+            <div class="col-3 col-sm-2 col-md-2 col-lg-1">
+                <button class="btn btn-success" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="card-columns">
+        <div class="card rounded-0" *ngFor="let city of citiesWeatherList">
+            <div class="card-header border-0">
+                <button type="button" class="close" aria-label="Close" (click)="removeCity(city.id)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card-body pt-0">
+                <div class="row mb-3">
+                    <div class="col">
+                        <span class="card-text font-weight-light card-city">{{city.name}}</span>
+                        <span class="badge badge-pill badge-warning text-white align-top">{{city.sys.country}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span class="card-text font-weight-bold card-temp">{{city.main.temp}}</span>
+                        <span class="card-text font-weight-light card-temp">
+                            &#8451;
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col px-0">
+                        <img src="{{'https://openweathermap.org/img/wn/' + city.weather[0]['icon'] + '@2x.png'}}" class="img-thumbnail" [alt]="city.weather[0].main">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <span class="card-text font-weight-light card-weather">{{city.weather[0].main}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
