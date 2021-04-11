@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather.service';
 import { ToastrService } from 'ngx-toastr';
+import * as Util from '../common/util';
 
 @Component({
   selector: 'app-home-component',
@@ -13,6 +14,7 @@ export class HomeComponentComponent implements OnInit {
   citiesWeatherList: any[] = [];
   citiesIconList: any[] = [];
   searchCity: string = '';
+  util: any = Util;
 
   constructor(private weatherService: WeatherService, private toastr: ToastrService) {}
 
@@ -107,8 +109,13 @@ export class HomeComponentComponent implements OnInit {
     this.showSuccessToastr("Successfuly removed city card!");
   }
 
-  showSuccessToastr(message: string) {
-    this.toastr.success(message, "Success");
+  showSuccessToastr(message: string, customConfig: any = undefined) {
+    if (customConfig) {
+      this.toastr.success(message, "Success", customConfig);
+    } else {
+      this.toastr.success(message, "Success");
+    }
+    
   }
 
   showWarningToastr(message: string, customConfig: any = undefined) {
