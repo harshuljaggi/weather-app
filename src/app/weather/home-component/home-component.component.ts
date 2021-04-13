@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather.service';
 import { ToastrService } from 'ngx-toastr';
 import * as Util from '../common/util';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-home-component',
@@ -15,6 +16,7 @@ export class HomeComponentComponent implements OnInit {
   citiesIconList: any[] = [];
   searchCity: string = '';
   util: any = Util;
+  imgURL: string = 'https://openweathermap.org/img/wn/';
 
   constructor(private weatherService: WeatherService, private toastr: ToastrService) {}
 
@@ -32,7 +34,7 @@ export class HomeComponentComponent implements OnInit {
   }
 
   // Handler function triggered on form submit
-  onSubmit() {
+  onSubmit(weatherForm: NgForm) {
     // Check whether input cityname weather data is already available in the app
     const [isCityPresent, city] = this.checkInCitiesWeatherList();
     if (isCityPresent) {
@@ -42,8 +44,8 @@ export class HomeComponentComponent implements OnInit {
       })
     } else {
       this.getCurrentWeather(this.searchCity);
-      // Reset the search text in text field
-      this.searchCity = '';
+      // Reset the form
+      weatherForm.reset();
     }
   }
 

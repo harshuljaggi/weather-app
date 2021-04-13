@@ -1,15 +1,23 @@
 <div class="container-fluid p-5 text-white">
     <h3 class="text-center">Weather App</h3>
-    <form (ngSubmit)="onSubmit()" #weatherForm="ngForm" class="mb-5">
+    <form (ngSubmit)="onSubmit(weatherForm)" #weatherForm="ngForm" class="mb-5">
         <div class="row mb-4"></div>
         <div class="row">
             <div class="col-9 col-sm-10 col-md-10 col-lg-11">
                 <input type="text"
                     class="form-control bg-dark border-top-0 border-left-0 border-right-0 rounded-0 text-white"
-                    id="city" placeholder="Search for a city" name="city" [(ngModel)]="searchCity" #city="ngModel">
+                    id="city" placeholder="Search for a city" name="city" [(ngModel)]="searchCity" #city="ngModel" required>
             </div>
             <div class="col-3 col-sm-2 col-md-2 col-lg-1">
-                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-success" type="submit" [disabled]="!weatherForm.form.valid">Submit</button>
+            </div>
+        </div>
+        <div class="row mb-2" [hidden]="city.valid || city.pristine"></div>
+        <div class="row" [hidden]="city.valid || city.pristine">
+            <div class="col pl-4">
+                <div class="text-white">
+                    City is required
+                </div>
             </div>
         </div>
     </form>
@@ -37,7 +45,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col px-0">
-                        <img src="{{'https://openweathermap.org/img/wn/' + city.weather[0]['icon'] + '@2x.png'}}" class="img-thumbnail" [alt]="city.weather[0].main">
+                        <img src="{{imgURL + city.weather[0]['icon'] + '@2x.png'}}" class="img-thumbnail" [alt]="city.weather[0].main">
                     </div>
                 </div>
                 <div class="row mb-3">
