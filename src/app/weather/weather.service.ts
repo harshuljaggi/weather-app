@@ -3,14 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
-  url: string = "https://api.openweathermap.org/data/2.5/"
-  key: string = environment.open_weather_api_key
+  url: string = "https://api.openweathermap.org/data/2.5/";
+  key: string = environment.open_weather_api_key;
 
   constructor(private http: HttpClient) { }
 

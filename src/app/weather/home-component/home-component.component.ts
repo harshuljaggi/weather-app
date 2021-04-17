@@ -17,6 +17,7 @@ export class HomeComponentComponent implements OnInit {
   searchCity: string = '';
   util: any = Util;
   imgURL: string = 'https://openweathermap.org/img/wn/';
+  weatherIconPath: string = "../../../assets/images";
 
   constructor(private weatherService: WeatherService, private toastr: ToastrService) {}
 

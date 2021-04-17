@@ -29,6 +29,16 @@
   font-size: 1rem;
 }
 
+.card-weather-desc {
+  color: black;
+  font-size: 1rem;
+}
+
+.weather-icon-label {
+  color: black;
+  font-size: 0.8rem;
+}
+
 .img-thumbnail {
     background-color: white;
     border: 0rem;

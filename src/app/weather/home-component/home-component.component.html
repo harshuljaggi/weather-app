@@ -29,28 +29,42 @@
                 </button>
             </div>
             <div class="card-body pt-0">
-                <div class="row mb-3">
-                    <div class="col">
+                <div class="d-flex mb-3">
+                    <div class="p-1 flex-fill">
                         <span class="card-text font-weight-light card-city">{{city.name}}</span>
                         <span class="badge badge-pill badge-warning text-white align-top">{{city.sys.country}}</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
+                <div class="d-flex">
+                    <div class="p-1 flex-fill">
                         <span class="card-text font-weight-normal card-temp">{{util.formatTemp(city.main.temp)}}</span>
                         <span class="card-text font-weight-light card-temp">
                             &#8451;
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row">
                     <div class="col px-0">
                         <img src="{{imgURL + city.weather[0]['icon'] + '@2x.png'}}" class="img-thumbnail" [alt]="city.weather[0].main">
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col">
-                        <span class="card-text font-weight-light card-weather">{{city.weather[0].main}}</span>
+                <div class="d-flex mb-3">
+                    <div class="p-1 flex-fill">
+                        <span class="card-text font-weight-normal card-weather-desc">Feels like {{util.formatTemp(city.main.feels_like)}}°C. {{city.weather[0].main}}. {{util.capitalizeFirstLetter(city.weather[0].description)}}</span>
+                    </div>
+                </div>
+                <div class="d-flex">  
+                    <div class="p-1 flex-fill">
+                        <img src="{{weatherIconPath}}/wind_24.png" class="rounded pr-1" alt="Air">
+                        <span class="card-text font-weight-light weather-icon-label">{{city.wind.speed}} m/s {{util.getWindDirection(city.wind.deg)}}</span>
+                    </div>
+                    <div class="p-1 flex-fill">
+                        <img src="{{weatherIconPath}}/gauge_24.png" class="rounded pr-1" alt="Pressure">
+                        <span class="card-text font-weight-light weather-icon-label">{{city.main.pressure}} hPa</span>
+                    </div>
+                    <div class="p-1 flex-fill">
+                        <img src="{{weatherIconPath}}/humidity_24.png" class="rounded pr-1" alt="Humidity">
+                        <span class="card-text font-weight-light weather-icon-label">{{city.main.humidity}} %</span>
                     </div>
                 </div>
             </div>
