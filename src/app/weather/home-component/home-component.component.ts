@@ -3,6 +3,10 @@ import { WeatherService } from '../weather.service';
 import { ToastrService } from 'ngx-toastr';
 import * as Util from '../common/util';
 import { NgForm } from '@angular/forms';
+import { GeolocationService, GEOLOCATION_SUPPORT } from '@ng-web-apis/geolocation';
+import { take } from 'rxjs/operators'
+import { Inject } from '@angular/core';
+import { logging } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-home-component',
@@ -19,19 +23,48 @@ export class HomeComponentComponent implements OnInit {
   imgURL: string = 'https://openweathermap.org/img/wn/';
   weatherIconPath: string = "assets/images";
 
-  constructor(private weatherService: WeatherService, private toastr: ToastrService) {}
+  constructor(private weatherService: WeatherService, private toastr: ToastrService, private readonly geolocation$: GeolocationService, @Inject(GEOLOCATION_SUPPORT) private readonly geolocationSupport: boolean) {}
 
   ngOnInit(): void {
     console.log('Creating Home Component');
+    // If user's browser supports Geolocation API
+    if (this.geolocationSupport) {
+      console.log(`User's browser supports Geolocation API.`);
+      console.log(`Requesting User's Geo location.`);
+      this.getWeatherForGeoLocation();
+    } else {
+      console.log(`User's browser doesn't supports Geolocation API.`);
+    }
   }
 
-  // retrieves weather data for the city
-  getCurrentWeather(cityName: string) {
-    console.log(`Requesting current weather for ${cityName}`);
-    this.weatherService.getCurrentWeather(cityName).subscribe(
-      (data) => this.citiesWeatherList.unshift(data),
-      (error) => (this.showWarningToastr(<string><any>error === "404" ? `Search Data unavailable for ${cityName}` : error))
+  // Asks user for geo location to fetch geo locatiom specific weather data
+  getWeatherForGeoLocation() {
+    this.geolocation$.pipe(take(1)).subscribe(
+      position => this.getCurrentWeather('', String(position.coords.latitude), String(position.coords.longitude)),
+      error => console.log(error.message)
+    );
+  }
+
+  // retrieves weather data
+  getCurrentWeather(cityName: string,  lat: string = '', long: string = '') {
+    console.log(`Requesting current weather for [${cityName}] [${lat}] [${long}]`);
+    this.weatherService.getCurrentWeather(cityName, lat, long).subscribe(
+      data => this.citiesWeatherList.unshift(data),
+      error => this.showErrorInfo(error, cityName)
     ); 
+  }
+
+  showErrorInfo(error: any, cityName: string) {
+    const errorCode = <string>error;
+    if (errorCode === '404') {
+      this.showWarningToastr(`Search Data unavailable for ${cityName}`);
+    } else if (errorCode === '400') {
+      this.showWarningToastr(`Invalid input`);
+    } else if (errorCode === '0') {
+      this.showWarningToastr(`Network unavailable. Please check your connection settings.`);
+    } else {
+      this.showWarningToastr(errorCode);
+    }
   }
 
   // Handler function triggered on form submit
@@ -109,7 +142,7 @@ export class HomeComponentComponent implements OnInit {
     this.citiesWeatherList = this.citiesWeatherList.filter(
       (city) => city.id !== cityID
     );
-    this.showSuccessToastr("Successfuly removed city card!");
+    this.showSuccessToastr("Successfuly removed city");
   }
 
   showSuccessToastr(message: string, customConfig: any = undefined) {

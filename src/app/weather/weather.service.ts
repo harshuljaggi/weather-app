@@ -14,10 +14,19 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  // Gets current weather data for a city
-  getCurrentWeather(cityName: string) {
-    return this.http.get<any>(`${this.url}weather?q=${cityName}&&appid=${this.key}&units=metric`).pipe(
-      tap(data => console.log(`Current weather data for ${cityName} : ${JSON.stringify(data)}`)),
+  // Gets current weather data
+  getCurrentWeather(cityName: string, lat: string = '', long: string = '') {
+    let completeUrl: string = `${this.url}weather?`;
+    if (lat !== '' && long !== '') {
+      // Use coordinates to fetch weather data
+      completeUrl += `lat=${lat}&lon=${long}`;
+    } else {
+      // Use city name to fetch weather data
+      completeUrl += `q=${cityName}`;
+    }
+    completeUrl += `&appid=${this.key}&units=metric`;
+    return this.http.get<any>(completeUrl).pipe(
+      tap(data => console.log(`Current weather data for [${cityName}] [${lat}] [${long}]: ${JSON.stringify(data)}`)),
       catchError(this.handleError));
   }
 

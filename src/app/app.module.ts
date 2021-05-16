@@ -6,6 +6,7 @@ import { HomeComponentComponent } from './weather/home-component/home-component.
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { POSITION_OPTIONS } from '@ng-web-apis/geolocation';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,12 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: false
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: POSITION_OPTIONS,
+      useValue: {enableHighAccuracy: true, timeout: 3000, maximumAge: 0},
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
