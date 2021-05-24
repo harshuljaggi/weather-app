@@ -82,3 +82,7 @@ export const getWindDirection = (degree: any) => {
 
 // To convert first letter of a string to uppercase
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export const fToC = (tempInF: number) => formatTemp(5 * (tempInF - 32) / 9);
+
+export const ctoF = (tempInC: number) => formatTemp((9 * tempInC + 160) / 5);

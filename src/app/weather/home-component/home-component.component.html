@@ -1,8 +1,8 @@
 <div class="container-fluid p-5 text-white">
     <h3 class="text-center">Weather App</h3>
-    <form (ngSubmit)="onSubmit(weatherForm)" #weatherForm="ngForm" class="mb-5">
+    <form (ngSubmit)="onSubmit(weatherForm)" #weatherForm="ngForm" class="mb-4">
         <div class="row mb-4"></div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-9 col-sm-10 col-md-10 col-lg-11">
                 <input type="text"
                     class="form-control bg-dark border-top-0 border-left-0 border-right-0 rounded-0 text-white"
@@ -10,6 +10,13 @@
             </div>
             <div class="col-3 col-sm-2 col-md-2 col-lg-1">
                 <button class="btn btn-success" type="submit" [disabled]="!weatherForm.form.valid">Submit</button>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch1" name="unit"  [checked]="isUnitMetric"
+                (change)="isUnitMetric = !isUnitMetric; toggleTempUnit()">
+                <label class="custom-control-label" for="switch1">{{tempSwitchText}}</label>
             </div>
         </div>
         <div class="row mb-2" [hidden]="city.valid || city.pristine"></div>
@@ -38,9 +45,7 @@
                 <div class="d-flex">
                     <div class="p-1 flex-fill">
                         <span class="card-text font-weight-normal card-temp">{{util.formatTemp(city.main.temp)}}</span>
-                        <span class="card-text font-weight-light card-temp">
-                            &#8451;
-                        </span>
+                        <span class="card-text font-weight-light card-temp">{{tempUnitText}}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -50,7 +55,7 @@
                 </div>
                 <div class="d-flex mb-3">
                     <div class="p-1 flex-fill">
-                        <span class="card-text font-weight-normal card-weather-desc">Feels like {{util.formatTemp(city.main.feels_like)}}°C. {{city.weather[0].main}}. {{util.capitalizeFirstLetter(city.weather[0].description)}}</span>
+                        <span class="card-text font-weight-normal card-weather-desc">Feels like {{util.formatTemp(city.main.feels_like)}}{{tempUnitText}}. {{city.weather[0].main}}. {{util.capitalizeFirstLetter(city.weather[0].description)}}</span>
                     </div>
                 </div>
                 <div class="d-flex">  

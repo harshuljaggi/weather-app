@@ -22,7 +22,9 @@ export class HomeComponentComponent implements OnInit {
   util: any = Util;
   imgURL: string = 'https://openweathermap.org/img/wn/';
   weatherIconPath: string = "assets/images";
-
+  tempSwitchText: string = "°C";
+  tempUnitText: string = "°C"; // Temp Unit to be displayed in City card
+  isUnitMetric: boolean = true;
   constructor(private weatherService: WeatherService, private toastr: ToastrService, private readonly geolocation$: GeolocationService, @Inject(GEOLOCATION_SUPPORT) private readonly geolocationSupport: boolean) {}
 
   ngOnInit(): void {
@@ -48,7 +50,7 @@ export class HomeComponentComponent implements OnInit {
   // retrieves weather data
   getCurrentWeather(cityName: string,  lat: string = '', long: string = '') {
     console.log(`Requesting current weather for [${cityName}] [${lat}] [${long}]`);
-    this.weatherService.getCurrentWeather(cityName, lat, long).subscribe(
+    this.weatherService.getCurrentWeather(cityName,this.isUnitMetric ,lat, long).subscribe(
       data => this.citiesWeatherList.unshift(data),
       error => this.showErrorInfo(error, cityName)
     ); 
@@ -143,6 +145,41 @@ export class HomeComponentComponent implements OnInit {
       (city) => city.id !== cityID
     );
     this.showSuccessToastr("Successfuly removed city");
+  }
+
+  // changes temperature unit in city Weather List
+  changeWeatherListTempUnit() {
+    // If temperature is in °C convert it into °F
+    if (!this.isUnitMetric) {
+      this.citiesWeatherList = this.citiesWeatherList.map(cityWeather => {
+        let cityWeatherObj = cityWeather;
+        cityWeatherObj.main.temp = Util.ctoF(cityWeatherObj.main.temp);
+        cityWeatherObj.main.feels_like = Util.ctoF(cityWeatherObj.main.feels_like);
+        return cityWeatherObj;
+      });
+      this.tempUnitText = '°F';
+      console.log('Weather unit updated to °F : ', this.citiesWeatherList);
+      // If temperature is in °F convert it into °C
+    } else {
+      this.citiesWeatherList = this.citiesWeatherList.map(cityWeather => {
+        let cityWeatherObj = cityWeather;
+        cityWeatherObj.main.temp = Util.fToC(cityWeatherObj.main.temp);
+        cityWeatherObj.main.feels_like = Util.fToC(cityWeatherObj.main.feels_like);
+        return cityWeatherObj;
+      });
+      this.tempUnitText = '°C';
+      console.log('Weather unit updated to °C : ', this.citiesWeatherList);
+    }
+  }
+
+  // toggle weather temperature unit
+  toggleTempUnit() {
+    if (this.isUnitMetric) {
+      console.log('Switching unit to °C')
+    } else {
+      console.log('Switching unit to °F');
+    }
+    this.changeWeatherListTempUnit();
   }
 
   showSuccessToastr(message: string, customConfig: any = undefined) {

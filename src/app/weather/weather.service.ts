@@ -15,7 +15,7 @@ export class WeatherService {
   constructor(private http: HttpClient) { }
 
   // Gets current weather data
-  getCurrentWeather(cityName: string, lat: string = '', long: string = '') {
+  getCurrentWeather(cityName: string, isUnitMetric: boolean, lat: string = '', long: string = '') {
     let completeUrl: string = `${this.url}weather?`;
     if (lat !== '' && long !== '') {
       // Use coordinates to fetch weather data
@@ -24,7 +24,12 @@ export class WeatherService {
       // Use city name to fetch weather data
       completeUrl += `q=${cityName}`;
     }
-    completeUrl += `&appid=${this.key}&units=metric`;
+    completeUrl += `&appid=${this.key}`;
+    if (isUnitMetric) {
+      completeUrl += `&units=metric`;
+    } else {
+      completeUrl += `&units=imperial`;
+    }
     return this.http.get<any>(completeUrl).pipe(
       tap(data => console.log(`Current weather data for [${cityName}] [${lat}] [${long}]: ${JSON.stringify(data)}`)),
       catchError(this.handleError));
