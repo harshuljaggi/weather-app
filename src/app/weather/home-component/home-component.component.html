@@ -6,7 +6,8 @@
             <div class="col-9 col-sm-10 col-md-10 col-lg-11">
                 <input type="text"
                     class="form-control bg-dark border-top-0 border-left-0 border-right-0 rounded-0 text-white"
-                    id="city" placeholder="Search for a city" name="city" [(ngModel)]="searchCity" #city="ngModel" required>
+                    id="city" placeholder="Search for a city" name="city" [(ngModel)]="searchCity" #city="ngModel"
+                    required>
             </div>
             <div class="col-3 col-sm-2 col-md-2 col-lg-1">
                 <button class="btn btn-success" type="submit" [disabled]="!weatherForm.form.valid">Submit</button>
@@ -14,8 +15,8 @@
         </div>
         <div class="d-flex">
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switch1" name="unit"  [checked]="isUnitMetric"
-                (change)="isUnitMetric = !isUnitMetric; toggleTempUnit()">
+                <input type="checkbox" class="custom-control-input" id="switch1" name="unit" [checked]="isUnitMetric"
+                    (change)="isUnitMetric = !isUnitMetric; toggleTempUnit()">
                 <label class="custom-control-label" for="switch1">{{tempSwitchText}}</label>
             </div>
         </div>
@@ -30,49 +31,8 @@
     </form>
     <div class="card-columns">
         <div class="card rounded-0" *ngFor="let city of citiesWeatherList">
-            <div class="card-header border-0">
-                <button type="button" class="close" aria-label="Close" (click)="removeCity(city.id)">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="card-body pt-0">
-                <div class="d-flex mb-3">
-                    <div class="p-1 flex-fill">
-                        <span class="card-text font-weight-light card-city">{{city.name}}</span>
-                        <span class="badge badge-pill badge-warning text-white align-top">{{city.sys.country}}</span>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="p-1 flex-fill">
-                        <span class="card-text font-weight-normal card-temp">{{util.formatTemp(city.main.temp)}}</span>
-                        <span class="card-text font-weight-light card-temp">{{tempUnitText}}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col px-0">
-                        <img src="{{imgURL + city.weather[0]['icon'] + '@2x.png'}}" class="img-thumbnail" [alt]="city.weather[0].main">
-                    </div>
-                </div>
-                <div class="d-flex mb-3">
-                    <div class="p-1 flex-fill">
-                        <span class="card-text font-weight-normal card-weather-desc">Feels like {{util.formatTemp(city.main.feels_like)}}{{tempUnitText}}. {{city.weather[0].main}}. {{util.capitalizeFirstLetter(city.weather[0].description)}}</span>
-                    </div>
-                </div>
-                <div class="d-flex">  
-                    <div class="p-1 flex-fill">
-                        <img src="{{weatherIconPath}}/wind_24.png" class="rounded pr-1" alt="Air">
-                        <span class="card-text font-weight-light weather-icon-label">{{city.wind.speed}}m/s {{util.getWindDirection(city.wind.deg)}}</span>
-                    </div>
-                    <div class="p-1 flex-fill">
-                        <img src="{{weatherIconPath}}/gauge_24.png" class="rounded pr-1" alt="Pressure">
-                        <span class="card-text font-weight-light weather-icon-label">{{city.main.pressure}}hPa</span>
-                    </div>
-                    <div class="p-1 flex-fill">
-                        <img src="{{weatherIconPath}}/humidity_24.png" class="rounded pr-1" alt="Humidity">
-                        <span class="card-text font-weight-light weather-icon-label">{{city.main.humidity}}%</span>
-                    </div>
-                </div>
-            </div>
+            <app-city-card-component [city]="city" [tempUnitText]="tempUnitText" (removeCityEvent)="removeCity($event)">
+            </app-city-card-component>
         </div>
     </div>
 </div>

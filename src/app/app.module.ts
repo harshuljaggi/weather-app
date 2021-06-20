@@ -7,11 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { POSITION_OPTIONS } from '@ng-web-apis/geolocation';
+import { CityCardComponentComponent } from './weather/city-card-component/city-card-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponentComponent
+    HomeComponentComponent,
+    CityCardComponentComponent
   ],
   imports: [
     BrowserModule,

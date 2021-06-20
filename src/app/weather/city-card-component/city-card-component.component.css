@@ -1,0 +1,36 @@
+.card-header {
+    background-color: white;
+    padding: 0.25rem 0.75rem;
+  }
+  
+  .card-city {
+    color: black;
+    font-size: 1.5rem;
+  }
+  
+  .card-temp {
+    color: black;
+    font-size: 2rem;
+  }
+  
+  .card-weather {
+    color: black;
+    font-size: 1rem;
+  }
+  
+  .card-weather-desc {
+    color: black;
+    font-size: 1rem;
+  }
+  
+  .weather-icon-label {
+    color: black;
+    font-size: 0.8rem;
+  }
+  
+  .img-thumbnail {
+      background-color: white;
+      border: 0rem;
+      padding: 0rem;
+  }
+  

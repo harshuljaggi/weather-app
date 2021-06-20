@@ -20,8 +20,6 @@ export class HomeComponentComponent implements OnInit {
   citiesIconList: any[] = [];
   searchCity: string = '';
   util: any = Util;
-  imgURL: string = 'https://openweathermap.org/img/wn/';
-  weatherIconPath: string = "assets/images";
   tempSwitchText: string = "°C";
   tempUnitText: string = "°C"; // Temp Unit to be displayed in City card
   isUnitMetric: boolean = true;
@@ -158,7 +156,7 @@ export class HomeComponentComponent implements OnInit {
         return cityWeatherObj;
       });
       this.tempUnitText = '°F';
-      console.log('Weather unit updated to °F : ', this.citiesWeatherList);
+      console.log('Weather temperature unit changed to °F');
       // If temperature is in °F convert it into °C
     } else {
       this.citiesWeatherList = this.citiesWeatherList.map(cityWeather => {
@@ -168,7 +166,7 @@ export class HomeComponentComponent implements OnInit {
         return cityWeatherObj;
       });
       this.tempUnitText = '°C';
-      console.log('Weather unit updated to °C : ', this.citiesWeatherList);
+      console.log('Weather temperature unit changed to °C');
     }
   }
 
